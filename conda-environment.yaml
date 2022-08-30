@@ -1,4 +1,4 @@
-name: dataset
+name: brandenburg-models
 channels:
   - pytorch
   - conda-forge
