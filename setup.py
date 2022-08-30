@@ -1,7 +1,7 @@
 import setuptools
 
 setuptools.setup(
-    name="brandenburg",
+    name="brandenburg-models",
     version="0.0.1",
     author="Otto Brookes",
     contributors="Rob Jones",
