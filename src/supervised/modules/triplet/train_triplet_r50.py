@@ -199,14 +199,15 @@ def main():
     wand_logger = WandbLogger(offline=True)
 
     ckpt_label=cfg.get('trainer', 'ckpt_label')
+    ckpt_dir=cfg.get('trainer', 'ckpt_dir')
     val_top1_acc_checkpoint_callback = ModelCheckpoint(
-        dirpath=f"checkpoints/val_top1_acc/type={data_type}_margin={margin}_triplets={type_of_triplets}_{ckpt_label}",
+        dirpath=f"{ckpt_dir}/val_top1_acc/type={data_type}_margin={margin}_triplets={type_of_triplets}_{ckpt_label}",
         monitor="val_top1_acc",
         mode="max",
     )
 
     val_per_class_acc_checkpoint_callback = ModelCheckpoint(
-        dirpath=f"checkpoints/val_avg_per_class_acc/type={data_type}_margin={margin}_triplets={type_of_triplets}_{ckpt_label}",
+        dirpath=f"{ckpt_dir}/val_avg_per_class_acc/type={data_type}_margin={margin}_triplets={type_of_triplets}_{ckpt_label}",
         monitor="val_avg_per_class_acc",
         mode="max",
     )

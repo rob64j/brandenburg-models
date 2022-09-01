@@ -127,10 +127,27 @@ def plotEmbeddings(args):
 
     print("Visualisation computed")
 
-    # Show results
-    alt_scatter(
-        reduction, embeddings["labels"], os.path.basename(args.embeddings_file)[:-4], args.species_dict
-    )
+    if args.combined:
+        for group in ['train', 'validation', 'test']:
+            title = f"{os.path.basename(args.embeddings_file)[:-4]}_{group}"
+            if group == 'train':
+                data = reduction[:embeddings['splits'][0], :]
+                labels = embeddings['labels'][:embeddings['splits'][0]]
+
+            elif group == 'validation':
+                data = reduction[embeddings['splits'][0]:embeddings['splits'][1], :]
+                labels = embeddings['labels'][embeddings['splits'][0]:embeddings['splits'][1]]
+
+            else:
+                data = reduction[embeddings['splits'][1]:, :]
+                labels = embeddings['labels'][embeddings['splits'][1]:]
+            alt_scatter(data, labels, title, args.species_dict)
+
+    else:
+        # Show results
+        alt_scatter(
+            reduction, embeddings["labels"], os.path.basename(args.embeddings_file)[:-4], args.species_dict
+        )
 
 
 # Main/entry method
@@ -162,6 +179,12 @@ if __name__ == "__main__":
         type=int,
         default=30,
         help="Perplexity parameter for t-SNE, consider values between 5 and 50",
+    )
+    parser.add_argument(
+        "--combined",
+        type=bool,
+        default=False,
+        help="Set true if embeddings file is combined train/vallidation/test embeddings",
     )
     args = parser.parse_args()
 
